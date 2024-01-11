@@ -7,10 +7,18 @@
     - install
     - neovim
 
-- name: Clone Packer.nvim
+- name: Clone Packer.nvim if not already cloned
   ansible.builtin.git:
     repo: 'https://github.com/wbthomason/packer.nvim'
     dest: "{{ lookup('env', 'HOME') }}/.config/nvim/pack/packer/start/packer.nvim"
+  tags:
+    - install
+    - neovim
+
+- name: Check if Packer.nvim is installed
+  ansible.builtin.stat:
+    path: "{{ lookup('env', 'HOME') }}/.config/nvim/pack/packer/start/packer.nvim/packer.lua"
+  register: packer_installed
   tags:
     - install
     - neovim
@@ -19,6 +27,7 @@
   homebrew:
     name: neovim
     state: present
+  when: packer_installed.stat.exists == false
   tags:
     - install
     - nvim
