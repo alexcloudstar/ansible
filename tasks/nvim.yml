@@ -6,6 +6,14 @@
     - install
     - nvim
 
+- name: Ensure Neovim packer directory exists
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.local/share/nvim/site/pack/packer/start"
+    state: directory
+  tags:
+    - install
+    - neovim
+
 - name: Clone Packer.nvim if not already cloned
   shell: git clone --depth 1 https://github.com/wbthomason/packer.nvim .
   args:
@@ -17,3 +25,4 @@
   tags:
     - install
     - neovim
+
