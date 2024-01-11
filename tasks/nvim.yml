@@ -1,39 +1,21 @@
 ---
-- name: Install Neovim and Clone Packer.nvim
+- name: Install Neovim and Clone Packer
+  hosts: localhost
+  gather_facts: no
+  vars:
+    packer_repo: 'https://github.com/wbthomason/packer.nvim'
+    packer_dest: '~/.local/share/nvim/site/pack/packer/start/packer.nvim'
+
   tasks:
-    - name: Install Neovim via Homebrew
+    - name: Install Neovim
       homebrew:
         name: neovim
         state: present
-      tags:
-        - install
-        - nvim
+      become: yes
 
-- name: Debug After Homebrew Installation
-  ansible.builtin.debug:
-    msg: "Reached this point after Homebrew installation"
-    tags:
-      - debug
-
-- name: Ensure Neovim packer directory exists
-  ansible.builtin.file:
-    path: "{{ lookup('env', 'HOME') }}/.local/share/nvim/site/pack/packer/start"
-    state: directory
-    tags:
-      - install
-      - neovim
-
-- name: Clone Packer.nvim if not already cloned
-  ansible.builtin.shell: git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-  args:
-    executable: /bin/zsh
-    tags:
-      - install
-      - neovim
-
-- name: Debug After Cloning Packer.nvim
-  ansible.builtin.debug:
-    msg: "Reached this point after cloning Packer.nvim"
-    tags:
-      - debug
-
+    - name: Clone Packer repository
+      git:
+        repo: "{{ packer_repo }}"
+        dest: "{{ packer_dest }}"
+        version: 'master'
+      become: yes
