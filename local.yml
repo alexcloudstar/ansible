@@ -8,3 +8,4 @@
     - import_tasks: tasks/dotfiles.yml
     - import_tasks: tasks/brew-packages.yml
     - import_tasks: tasks/nvim.yml
+    - import_tasks: tasks/git.yml
