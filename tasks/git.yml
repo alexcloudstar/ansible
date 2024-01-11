@@ -1,28 +1,40 @@
-- name: Set Git global username
-  git_config:
-    name: user.name
-    scope: global
-    value: "alexcloudstar"
-  tags:
-    - git
+---
+- name: Git and SSH Setup
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Set Git global username
+      git_config:
+        name: user.name
+        scope: global
+        value: "alexcloudstar"
+      tags:
+        - git
 
-- name: Set Git global email
-  git_config:
-    name: user.email
-    scope: global
-    value: "alexcloudstar@gmail.com"
-  tags:
-    - git
+    - name: Set Git global email
+      git_config:
+        name: user.email
+        scope: global
+        value: "alexcloudstar@gmail.com"
+      tags:
+        - git
 
-- name: Generate SSH key
-  openssh_keypair:
-    path: ~/.ssh/id_rsa
-    type: rsa
-  tags:
-    - ssh-keygen
+    - name: Generate SSH key
+      openssh_keypair:
+        path: ~/.ssh/id_rsa
+        type: rsa
+      tags:
+        - git
 
-- name: Copy SSH public key to clipboard
-  command: pbcopy < ~/.ssh/id_rsa.pub
-  when: ansible_os_family == 'Darwin'
-  tags:
-    - ssh-keygen
+    - name: Display SSH public key for manual copying
+      command: cat ~/.ssh/id_rsa.pub
+      register: ssh_pub_key
+      tags:
+        - git
+
+    - name: Show SSH public key
+      debug:
+        var: ssh_pub_key.stdout
+      tags:
+        - git
+
