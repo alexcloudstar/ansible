@@ -12,6 +12,8 @@
       - fzf
       - lua
       - luajit
+      - ripgrep 
+      - tree-sitter
     state: present
   tags:
     - homebrew
