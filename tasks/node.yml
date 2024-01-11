@@ -1,15 +1,17 @@
-  - name: install node
-    apt:
-      name: ['nodejs', 'npm']
-    tags: 
-    - node 
-  - name: Install n
-    npm: 
-      name: n
-      global: yes
-    tags: 
-    - node 
-  - name: n 20 
-    shell: n 20
-    tags: 
-    - node 
+---
+- name: Install Node.js and npm
+  ansible.builtin.command: brew install node
+  tags:
+    - node
+
+- name: Install n using npm
+  ansible.builtin.npm:
+    name: n
+    global: yes
+  tags:
+    - node
+
+- name: Install Node.js version 20 using n
+  ansible.builtin.command: n 20
+  tags:
+    - node
