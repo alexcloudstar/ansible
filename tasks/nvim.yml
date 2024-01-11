@@ -14,11 +14,23 @@
     - install
     - neovim
 
+- name: Debug Check Neovim packer directory
+  ansible.builtin.debug:
+    msg: "Neovim packer directory exists"
+  tags:
+    - debug
+
 - name: Clone Packer.nvim if not already cloned
   ansible.builtin.shell: git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
   args:
-    executable: /bin/zsh  
+    executable: /bin/zsh
   tags:
     - install
     - neovim
+
+- name: Debug Check if Packer.nvim is cloned
+  ansible.builtin.debug:
+    msg: "Packer.nvim is cloned"
+  tags:
+    - debug
 
