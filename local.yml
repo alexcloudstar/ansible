@@ -2,8 +2,8 @@
   vars:
     ansible_python_interpreter: "\"/Users/stefanalexandruromila/Library/Application Support/pipx/venvs/ansible/bin/python\""
   tasks:
-    - include: tasks/zsh.yml
-    - include: tasks/node.yml
-    - include: tasks/npm-packages.yml
-    - include: tasks/dotfiles.yml
-    - include: tasks/nvim.yml
+    - import_tasks: tasks/zsh.yml
+    - import_tasks: tasks/node.yml
+    - import_tasks: tasks/npm-packages.yml
+    - import_tasks: tasks/dotfiles.yml
+    - import_tasks: tasks/nvim.yml
