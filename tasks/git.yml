@@ -1,3 +1,11 @@
+- name: Ensure .ssh directory exists
+  ansible.builtin.file:
+    path: "~/.ssh"
+    state: directory
+    mode: '0700'
+  tags:
+    - git
+
 - name: Set Git global username
   git_config:
     name: user.name
@@ -32,4 +40,3 @@
     var: ssh_pub_key.stdout
   tags:
     - git
-
