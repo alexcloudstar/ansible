@@ -1,5 +1,4 @@
 - hosts: localhost
-  become: true
   vars:
     ansible_python_interpreter: "\"/Users/stefanalexandruromila/Library/Application Support/pipx/venvs/ansible/bin/python\""
   pre_tasks:
