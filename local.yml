@@ -2,15 +2,6 @@
   vars:
     ansible_python_interpreter: "/Users/stefanalexandruromila/Library/Application Support/pipx/venvs/ansible/bin/python"
   tasks:
-    - name: Check if Homebrew is installed
-      stat:
-        path: /opt/homebrew/bin/brew
-      register: homebrew_installed
-
-    - name: Install Homebrew
-      shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-      when: not homebrew_installed.stat.exists
-
     - import_tasks: tasks/zsh.yml
     - import_tasks: tasks/node.yml
     - import_tasks: tasks/npm-packages.yml
