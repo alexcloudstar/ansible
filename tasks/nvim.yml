@@ -9,10 +9,12 @@
 - name: Clone Packer.nvim if not already cloned
   become: yes
   become_user: stefanalexandruromila
-  ansible.builtin.shell: git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+  ansible.builtin.git:
+    repo: 'https://github.com/wbthomason/packer.nvim'
+    dest: "~/.local/share/nvim/site/pack/packer/start/packer.nvim"
   args:
     executable: /bin/zsh
-  creates: "~/.local/share/nvim/site/pack/packer/start/packer.nvim"
   tags:
     - install
     - neovim
+
