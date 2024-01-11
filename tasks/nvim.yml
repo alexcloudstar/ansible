@@ -7,10 +7,13 @@
     - nvim
 
 - name: Clone Packer.nvim if not already cloned
-  become: yes
-  become_user: stefanalexandruromila
-  shell: git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+  shell: git clone --depth 1 https://github.com/wbthomason/packer.nvim .
+  args:
+    chdir: "{{ lookup('env', 'HOME') }}/.local/share/nvim/site/pack/packer/start/packer.nvim"
+  register: packer_clone_result
+  changed_when: packer_clone_result.rc == 0
+  failed_when: packer_clone_result.rc != 0
+  ignore_errors: yes
   tags:
     - install
     - neovim
-
