@@ -6,7 +6,7 @@
     - install
     - nvim
 
-- name: Clone Packer
+- name: Clone Packer.nvim if not already cloned
   become: yes
   become_user: stefanalexandruromila
   ansible.builtin.shell: git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
