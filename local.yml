@@ -10,7 +10,7 @@
 
   tasks:
     - name: Include tasks for setting up zsh, tmux, etc.
-      include_tasks: tasks/zsh_and_tmux.yml
+      include_tasks: tasks/zsh.yml
       tags:
         - core
         - zsh
