@@ -15,14 +15,6 @@
     - install
     - neovim
 
-- name: Check if Packer.nvim is installed
-  ansible.builtin.stat:
-    path: "{{ lookup('env', 'HOME') }}/.config/nvim/pack/packer/start/packer.nvim/packer.lua"
-  register: packer_installed
-  tags:
-    - install
-    - neovim
-
 - name: Install Neovim
   homebrew:
     name: neovim
