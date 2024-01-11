@@ -13,3 +13,16 @@
     value: "alexcloudstar@gmail.com"
   tags:
     - git
+
+- name: Generate SSH key
+  openssh_keypair:
+    path: ~/.ssh/id_rsa
+    type: rsa
+  tags:
+    - ssh-keygen
+
+- name: Copy SSH public key to clipboard
+  command: pbcopy < ~/.ssh/id_rsa.pub
+  when: ansible_os_family == 'Darwin'
+  tags:
+    - ssh-keygen
