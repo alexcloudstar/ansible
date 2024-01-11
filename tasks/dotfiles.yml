@@ -17,7 +17,9 @@
     - dotfiles
     - stow
 - name: Stow dotfiles
-  shell: cd $HOME/.dotfiles && ./ubuntu
+  shell: | 
+    cd ~ && rm -rf .zshrc zshrc_history
+    cd $HOME/.dotfiles && stow -Rvt ~ *
   tags:
     - install
     - dotfiles

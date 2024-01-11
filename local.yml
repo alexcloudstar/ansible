@@ -1,0 +1,21 @@
+- hosts: localhost
+  become: true
+  pre_tasks:
+    - name: Update cache
+      apt:
+        update_cache: true
+      tags:
+      - install
+      - core
+      - zsh 
+      - tmux
+      - node  
+  tasks:
+  - include: tasks/zsh.yml
+  - include: tasks/brew-packages.yml
+  - include: tasks/node.yml
+  - include: tasks/npm-packages.yml
+  - include: tasks/productivity-tools.yml
+  - include: tasks/dotfiles.yml
+  - include: tasks/nvim.yml
+
