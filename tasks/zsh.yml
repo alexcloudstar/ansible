@@ -14,7 +14,7 @@
   tags: zsh
 
 - name: Change shell to Zsh
-  command: chsh -s $(which zsh)
+  ansible.builtin.shell: chsh -s $(which zsh)
   become: false
   tags: zsh
 
