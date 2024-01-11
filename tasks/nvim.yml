@@ -1,7 +1,5 @@
 ---
 - name: Install Neovim and Clone Packer.nvim
-  hosts: localhost
-  gather_facts: no
   tasks:
     - name: Install Neovim via Homebrew
       homebrew:
@@ -38,3 +36,4 @@
     msg: "Reached this point after cloning Packer.nvim"
     tags:
       - debug
+
