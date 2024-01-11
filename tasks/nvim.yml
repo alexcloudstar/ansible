@@ -13,4 +13,4 @@
     version: 'master'
   tags:
     - install
-    - packer
+    - nvim
