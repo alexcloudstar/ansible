@@ -13,10 +13,11 @@
   tags:
     - install
     - neovim
-- name: Install Neovim 
-  apt: 
-  name: neovim 
+
+- name: Install Neovim
+  homebrew:
+    name: neovim
+    state: present
   tags:
     - install
-    - nvim  
-
+    - nvim
