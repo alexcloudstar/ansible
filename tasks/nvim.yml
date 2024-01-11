@@ -19,7 +19,6 @@
   homebrew:
     name: neovim
     state: present
-  when: packer_installed.stat.exists == false
   tags:
     - install
     - nvim
