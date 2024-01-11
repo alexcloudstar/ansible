@@ -1,21 +1,16 @@
----
-- name: Install Neovim and Clone Packer
-  hosts: localhost
-  gather_facts: no
-  vars:
-    packer_repo: 'https://github.com/wbthomason/packer.nvim'
-    packer_dest: '~/.local/share/nvim/site/pack/packer/start/packer.nvim'
+- name: Install Neovim via Homebrew
+  homebrew:
+    name: neovim
+    state: present
+  tags:
+    - install
+    - nvim
 
-  tasks:
-    - name: Install Neovim
-      homebrew:
-        name: neovim
-        state: present
-      become: yes
-
-    - name: Clone Packer repository
-      git:
-        repo: "{{ packer_repo }}"
-        dest: "{{ packer_dest }}"
-        version: 'master'
-      become: yes
+- name: Clone Packer.nvim
+  git:
+    repo: 'https://github.com/wbthomason/packer.nvim'
+    dest: '~/.local/share/nvim/site/pack/packer/start/packer.nvim'
+    version: 'master'
+  tags:
+    - install
+    - packer
