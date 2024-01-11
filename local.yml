@@ -1,21 +1,42 @@
+---
 - hosts: localhost
-  become: true
+  become: yes
   pre_tasks:
-    - name: Update cache
-      apt:
-        update_cache: true
-      tags:
-      - install
-      - core
-      - zsh 
-      - tmux
-      - node  
-  tasks:
-  - include: tasks/zsh.yml
-  - include: tasks/brew-packages.yml
-  - include: tasks/node.yml
-  - include: tasks/npm-packages.yml
-  - include: tasks/productivity-tools.yml
-  - include: tasks/dotfiles.yml
-  - include: tasks/nvim.yml
+    - name: Install Homebrew (if not already installed)
+      command: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+      args:
+        creates: /opt/homebrew/bin/brew
+      when: ansible_architecture == "arm64"  # Apple Silicon-specific installation
 
+  tasks:
+    - name: Include tasks for setting up zsh, tmux, etc.
+      include_tasks: tasks/zsh_and_tmux.yml
+      tags:
+        - core
+        - zsh
+        - tmux
+
+    - name: Include tasks for installing Node.js
+      include_tasks: tasks/node.yml
+      tags:
+        - node
+
+    - name: Include tasks for installing npm packages
+      include_tasks: tasks/npm-packages.yml
+      tags:
+        - node
+
+    - name: Include tasks for installing productivity tools
+      include_tasks: tasks/productivity-tools.yml
+      tags:
+        - productivity
+
+    - name: Include tasks for setting up dotfiles
+      include_tasks: tasks/dotfiles.yml
+      tags:
+        - dotfiles
+
+    - name: Include tasks for setting up Neovim
+      include_tasks: tasks/nvim.yml
+      tags:
+        - nvim
