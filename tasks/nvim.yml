@@ -21,3 +21,4 @@
   tags:
     - install
     - nvim
+  become: yes
