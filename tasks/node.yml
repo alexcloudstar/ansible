@@ -28,7 +28,9 @@
 
 - name: Install bun
   ansible.builtin.command:
-    cmd: curl -fsSL https://bun.sh/install | zsh
+    cmd: curl -fsSL https://bun.sh/install | bash
+  args:
+    executable: /bin/bash
   tags:
     - node
 
