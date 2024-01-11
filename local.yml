@@ -1,42 +1,22 @@
----
 - hosts: localhost
-  become: yes
+  become: true
+  vars:
+    ansible_python_interpreter: "/Users/stefanalexandruromila/Library/Application Support/pipx/venvs/ansible/bin/python"
   pre_tasks:
-    - name: Install Homebrew (if not already installed)
-      command: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    - name: Install Homebrew
+      shell: |
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
       args:
-        creates: /opt/homebrew/bin/brew
-      when: ansible_architecture == "arm64"  # Apple Silicon-specific installation
-
+        creates: /usr/local/bin/brew
+    - name: Update Homebrew cache
+      homebrew:
+        update_cache: yes
+      tags:
+        - install
   tasks:
-    - name: Include tasks for setting up zsh, tmux, etc.
-      include_tasks: tasks/zsh.yml
-      tags:
-        - core
-        - zsh
-        - tmux
-
-    - name: Include tasks for installing Node.js
-      include_tasks: tasks/node.yml
-      tags:
-        - node
-
-    - name: Include tasks for installing npm packages
-      include_tasks: tasks/npm-packages.yml
-      tags:
-        - node
-
-    - name: Include tasks for installing productivity tools
-      include_tasks: tasks/productivity-tools.yml
-      tags:
-        - productivity
-
-    - name: Include tasks for setting up dotfiles
-      include_tasks: tasks/dotfiles.yml
-      tags:
-        - dotfiles
-
-    - name: Include tasks for setting up Neovim
-      include_tasks: tasks/nvim.yml
-      tags:
-        - nvim
+    - include: tasks/zsh.yml
+    - include: tasks/node.yml
+    - include: tasks/npm-packages.yml
+    - include: tasks/productivity-tools.yml
+    - include: tasks/dotfiles.yml
+    - include: tasks/nvim.yml
