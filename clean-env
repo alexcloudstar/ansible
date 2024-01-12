@@ -22,7 +22,7 @@ chsh -s /bin/bash
 brew uninstall zsh
 
 # Undo Core Install
-brew uninstall stow tmux fzf lua luajit ripgrep tree-sitter neovim python3 pipx go
+brew uninstall tmux fzf lua luajit ripgrep tree-sitter neovim python3 pipx go
 
 # Undo Git setup
 git config --global --unset user.name
@@ -46,3 +46,14 @@ then
 else
     echo "Rust is not installed or not in PATH."
 fi
+
+# Unstow dotfiles
+cd $HOME/.dotfiles
+stow -D -vt ~ gitconfig local nvim skhd tmux yabai zsh
+cd $HOME
+
+# Remove cloned .dotfiles repository
+rm -rf $HOME/.dotfiles
+
+# Uninstall Stow using Homebrew
+brew uninstall stow
