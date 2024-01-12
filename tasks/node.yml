@@ -3,10 +3,19 @@
   tags:
     - node
 
-- name: Install bun
-  ansible.builtin.command: curl -fsSL https://bun.sh/install
-  args:
-    executable: /bin/zsh
+- name: Download bun installation script
+  ansible.builtin.get_url:
+    url: https://bun.sh/install
+    dest: /tmp/bun_install.sh
+    mode: '0755'
   tags:
     - node
     - bun
+
+- name: Execute bun installation script
+  ansible.builtin.command:
+    cmd: /bin/bash /tmp/bun_install.sh
+  tags:
+    - node
+    - bun
+
