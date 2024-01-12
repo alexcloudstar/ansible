@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# Undo node
+npm uninstall -g yarn typescript-language-server typescript
+brew uninstall node
+
+# Remove any globally installed npm packages
+rm -rf /opt/homebrew/lib/node_modules
+rm -f /opt/homebrew/bin/npm
+
+# Remove n if installed
+rm -f /opt/homebrew/bin/n
+rm -f /opt/homebrew/bin/node
+
+# Remove bun
+rm -f /opt/homebrew/bin/bun
+rm -rf ~/.bun
+
+# Undo zsh
+uninstall_oh_my_zsh
+chsh -s /bin/bash
+brew uninstall zsh
+
+# Undo Core Install
+brew uninstall stow tmux fzf lua luajit ripgrep tree-sitter neovim python3 pipx go
+
+# Undo Git setup
+git config --global --unset user.name
+git config --global --unset user.email
+
+# Remove SSH keys
+rm -f ~/.ssh/id_rsa
+rm -f ~/.ssh/id_rsa.pub
+
+# Undo Neovim setup
+brew uninstall neovim
+
+# Remove Packer plugin for Neovim
+rm -rf ~/.local/share/nvim/site/pack/packer
+
+# Undo Rust setup
+if [ -f "$HOME/.cargo/bin/rustup" ]; then
+    $HOME/.cargo/bin/rustup self uninstall -y
+fi
+
+# Remove Rust directories
+rm -rf $HOME/.cargo/
+rm -rf $HOME/.rustup/
