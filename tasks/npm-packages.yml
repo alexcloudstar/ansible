@@ -5,6 +5,7 @@
   tags:
     - install
     - node
+
 - name: Install eslint
   npm:
     name: eslint
@@ -12,9 +13,7 @@
   tags:
     - install
     - node
-  tags:
-    - install
-    - node
+
 - name: Install Typescript
   npm:
     name: typescript
@@ -22,6 +21,7 @@
   tags:
     - install
     - node
+
 - name: Install TS-Node
   npm:
     name: ts-node
@@ -29,4 +29,3 @@
   tags:
     - install
     - node
-

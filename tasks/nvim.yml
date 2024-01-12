@@ -1,22 +1,16 @@
-- name: Ensure Neovim plugin directories exist
-  ansible.builtin.file:
-    path: "{{ lookup('env', 'HOME') }}/.config/nvim/pack/packer/start"
-    state: directory
+- name: Install Neovim via Homebrew
+  homebrew:
+    name: neovim
+    state: present
   tags:
     - install
-    - neovim
+    - nvim
 
-- name: Get Packer
-  ansible.builtin.git:
+- name: Clone Packer.nvim
+  git:
     repo: 'https://github.com/wbthomason/packer.nvim'
-    dest: "{{ lookup('env', 'HOME') }}/.config/nvim/pack/packer/start/packer.nvim"
+    dest: '~/.local/share/nvim/site/pack/packer/start/packer.nvim'
+    version: 'master'
   tags:
     - install
-    - neovim
-- name: Install Neovim 
-  apt: 
-  name: neovim 
-  tags:
-    - install
-    - nvim  
-
+    - nvim

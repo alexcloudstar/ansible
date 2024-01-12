@@ -1,21 +1,13 @@
+---
 - hosts: localhost
-  become: true
-  pre_tasks:
-    - name: Update cache
-      apt:
-        update_cache: true
-      tags:
-      - install
-      - core
-      - zsh 
-      - tmux
-      - node  
+  vars:
+    ansible_python_interpreter: "/Users/stefanalexandruromila/Library/Application\\ Support/pipx/venvs/ansible/bin/python"
   tasks:
-  - include: tasks/zsh.yml
-  - include: tasks/brew-packages.yml
-  - include: tasks/node.yml
-  - include: tasks/npm-packages.yml
-  - include: tasks/productivity-tools.yml
-  - include: tasks/dotfiles.yml
-  - include: tasks/nvim.yml
-
+    - import_tasks: tasks/zsh.yml
+    - import_tasks: tasks/node.yml
+    - import_tasks: tasks/npm-packages.yml
+    - import_tasks: tasks/dotfiles.yml
+    - import_tasks: tasks/brew-packages.yml
+    - import_tasks: tasks/nvim.yml
+    - import_tasks: tasks/git.yml
+    - import_tasks: tasks/rust.yml

@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+
+# Undo node
+npm uninstall -g yarn typescript-language-server typescript
+brew uninstall n node 
+
+# Remove any globally installed npm packages
+rm -rf /opt/homebrew/lib/node_modules
+rm -f /opt/homebrew/bin/npm
+
+# Remove n if installed
+rm -f /opt/homebrew/bin/n
+rm -f /opt/homebrew/bin/node
+
+# Remove bun
+rm -f /opt/homebrew/bin/bun
+rm -rf ~/.bun
+
+# Undo zsh
+uninstall_oh_my_zsh
+chsh -s /bin/bash
+brew uninstall zsh
+
+# Undo Core Install
+brew uninstall tmux fzf lua luajit ripgrep tree-sitter neovim python3 pipx go
+
+# Undo Git setup
+git config --global --unset user.name
+git config --global --unset user.email
+
+# Remove SSH keys
+rm -f ~/.ssh/id_rsa
+rm -f ~/.ssh/id_rsa.pub
+
+# Undo Neovim setup
+brew uninstall neovim
+
+# Remove Packer plugin for Neovim
+rm -rf ~/.local/share/nvim/site/pack/packer
+
+# Uninstall Rust
+if command -v rustup &> /dev/null
+then
+    echo "Uninstalling Rust..."
+    rustup self uninstall -y
+else
+    echo "Rust is not installed or not in PATH."
+fi
+
+# Unstow dotfiles
+cd $HOME/.dotfiles
+stow -D -vt ~ gitconfig local nvim skhd tmux yabai zsh
+cd $HOME
+
+# Remove cloned .dotfiles repository
+rm -rf $HOME/.dotfiles
+
+# Uninstall Stow using Homebrew
+brew uninstall stow
+
+# Remove specific directories and files from home directory
+rm -rf $HOME/.npm
+rm -rf $HOME/.oh-my-zsh
+rm -f $HOME/.zsh_history
+rm -f $HOME/.zshenv
+rm -f $HOME/.zshrc.pre-oh-my-zsh
+rm -rf $HOME/n
+rm -rf $HOME/.ansible
+rm -rf $HOME/.zsh_sessions
+rm -rf $HOME/.zprofile
+rm -rf $HOME/.zcompdump-"$(hostname)"-5.9
+rm -rf $HOME/.ssh
+rm -rf $HOME/.local

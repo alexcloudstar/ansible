@@ -1,9 +1,12 @@
-- name: Installing stow
-  apt: name=stow
+- name: Installing stow (macOS)
+  homebrew:
+    name: stow
+    state: present
   tags:
     - install
     - dotfiles
     - stow
+
 - name: Cloning .dotfiles
   ansible.builtin.git:
     repo: 'https://github.com/alexcloudstar/.dotfiles.git'
@@ -11,17 +14,25 @@
     recursive: yes
     update: yes
     accept_hostkey: yes
-    version: main 
-  tags:
-    - install
-    - dotfiles
-    - stow
-- name: Stow dotfiles
-  shell: | 
-    cd ~ && rm -rf .zshrc zshrc_history
-    cd $HOME/.dotfiles && stow -Rvt ~ *
+    version: main
   tags:
     - install
     - dotfiles
     - stow
 
+- name: Stow dotfiles
+  shell: |
+    cd $HOME
+    if [ ! -L .zshrc ]; then
+      rm -f .zshrc
+    fi
+    if [ ! -L .zsh_history ]; then
+      rm -f .zsh_history
+    fi
+    cd $HOME/.dotfiles && stow -Rvt ~ *
+  args:
+    executable: /bin/zsh
+  tags:
+    - install
+    - dotfiles
+    - stow

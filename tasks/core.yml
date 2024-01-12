@@ -1,8 +1,0 @@
-- name: Install tmux with -y flag
-  apt: 
-    name: tmux 
-    update_cache: yes
-    state: present
-  tags:
-    - core
-    - tmux

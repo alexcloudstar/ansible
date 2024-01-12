@@ -1,32 +1,68 @@
-- name: Install zsh
-  apt: 
+- name: Install Zsh
+  homebrew:
     name: zsh
-  tags:
-    - zsh
+    state: present
+  become: false
+  tags: zsh
 
-- name: Change shell to zsh
-  shell: chsh -s $(which zsh)
-  tags: 
-    - zsh
+- name: Add Homebrew Zsh to /etc/shells
+  lineinfile:
+    path: /etc/shells
+    line: '/opt/homebrew/bin/zsh'
+    create: no
+  become: true
+  tags: zsh
 
-- name: Change shell
-  shell: chsh -s `which zsh`
-  tags:
-    - zsh
+- name: Change shell to Zsh
+  ansible.builtin.shell: chsh -s $(which zsh)
+  become: false
+  tags: zsh
 
-- name: Install oh-my-zsh
-  shell: 'curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh'
-  tags:
-    - zsh
+- name: Install Oh-My-Zsh
+  shell: sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  args:
+    creates: "~/.oh-my-zsh"
+  become: false
+  tags: zsh
 
-- name: Install the zsh plugin autosuggestions
-  ansible.builtin.git:
+- name: Ensure .oh-my-zsh custom plugin directory for zsh-syntax-highlighting exists
+  file:
+    path: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+    state: directory
+  become_user: "{{ ansible_env.USER }}"
+  tags: zsh
+
+- name: Install the zsh-syntax-highlighting plugin
+  git:
+    repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
+    dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+  become_user: "{{ ansible_env.USER }}"
+  tags: zsh
+
+- name: Ensure .oh-my-zsh custom plugin directory for zsh-autosuggestions exists
+  file:
+    path: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+    state: directory
+  become_user: "{{ ansible_env.USER }}"
+  tags: zsh
+
+- name: Install the zsh-autosuggestions plugin
+  git:
     repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
-    dest: ~/.oh-my-zsh/plugins/zsh-autosuggestions
-  tags:
-    - zsh
+    dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+  become_user: "{{ ansible_env.USER }}"
+  tags: zsh
 
-- name: Update our zshrc
-  shell: sed -i 's/plugins=(git/plugins=(git zsh-autosuggestions/' ~/.zshrc
-  tags:
-    - zsh
+- name: Check if .zshrc is a symlink
+  stat:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+  register: zshrc_stat
+  tags: zsh
+
+- name: Update .zshrc to enable zsh plugins (in .dotfiles)
+  lineinfile:
+    path: "{{ ansible_env.HOME }}/.dotfiles/zsh/.zshrc"  # Adjust the path according to your .dotfiles structure
+    regexp: '^plugins='
+    line: 'plugins=(git zsh-syntax-highlighting zsh-autosuggestions)'
+  when: zshrc_stat.stat.islnk
+  tags: zsh
