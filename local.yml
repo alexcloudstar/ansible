@@ -1,17 +1,5 @@
 ---
 - hosts: localhost
-  gather_facts: false
-  tasks:
-    - name: Create a symbolic link for Python interpreter
-      ansible.builtin.command:
-        cmd: ln -s ~/Library/Application\ Support/pipx/venvs/ansible/bin/python /usr/local/bin/ansible-python
-        warn: false
-      args:
-        creates: /usr/local/bin/ansible-python
-
-- hosts: localhost
-  vars:
-    ansible_python_interpreter: "/usr/local/bin/ansible-python"
   tasks:
     - import_tasks: tasks/zsh.yml
     - import_tasks: tasks/node.yml
