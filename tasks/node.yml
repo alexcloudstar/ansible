@@ -3,29 +3,6 @@
   tags:
     - node
 
-- name: Install n using npm
-  ansible.builtin.npm:
-    name: n
-    global: yes
-  tags:
-    - node
-
-# Option 1: Using root privileges
-- name: Install Node.js version 20 using n (with root privileges)
-  ansible.builtin.command: n 20
-  become: true
-  tags:
-    - node
-
-# Option 2: Without root privileges, using N_PREFIX
-- name: Install Node.js version 20 using n (without root privileges)
-  ansible.builtin.command: n 20
-  environment:
-    N_PREFIX: "{{ ansible_env.HOME }}/n"
-  become: false
-  tags:
-    - node
-
 - name: Install bun
   ansible.builtin.command: curl -fsSL https://bun.sh/install
   args:

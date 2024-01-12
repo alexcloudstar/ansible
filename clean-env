@@ -2,7 +2,7 @@
 
 # Undo node
 npm uninstall -g yarn typescript-language-server typescript
-brew uninstall node
+brew uninstall n node 
 
 # Remove any globally installed npm packages
 rm -rf /opt/homebrew/lib/node_modules
