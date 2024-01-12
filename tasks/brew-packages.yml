@@ -1,10 +1,3 @@
-- name: Install Homebrew (if not already installed)
-  command: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-  args:
-    creates: /opt/homebrew/bin/brew
-  tags:
-    - homebrew
-
 - name: Install packages using Homebrew
   homebrew:
     name:
@@ -12,7 +5,7 @@
       - fzf
       - lua
       - luajit
-      - ripgrep 
+      - ripgrep
       - tree-sitter
     state: present
   tags:
@@ -25,3 +18,10 @@
   tags:
     - homebrew
   ignore_errors: yes
+
+- name: Install fzf key bindings and fuzzy completion
+  command: "{{ lookup('env', 'HOMEBREW_PREFIX') }}/opt/fzf/install --all"
+  args:
+    creates: "{{ lookup('env', 'HOMEBREW_PREFIX') }}/opt/fzf/shell/key-bindings.zsh"
+  tags:
+    - homebrew
