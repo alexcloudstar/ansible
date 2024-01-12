@@ -64,6 +64,10 @@ rm -rf $HOME/.oh-my-zsh
 rm -f $HOME/.zsh_history
 rm -f $HOME/.zshenv
 rm -f $HOME/.zshrc.pre-oh-my-zsh
-
-# Remove 'n' if installed in the home directory
 rm -rf $HOME/n
+rm -rf $HOME/.ansible
+rm -rf $HOME/.zsh_sessions
+rm -rf $HOME/.zprofile
+rm -rf $HOME/.zcompdump-"$(hostname)"-5.9
+rm -rf $HOME/.ssh
+rm -rf $HOME/.local
