@@ -39,16 +39,30 @@
   become_user: "{{ ansible_env.USER }}"
   tags: zsh
 
-- name: Ensure .oh-my-zsh custom themes directory for powerlevel10k exists
+- name: Ensure .oh-my-zsh custom plugin directory for zsh-autosuggestions exists
   file:
-    path: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
+    path: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
     state: directory
   become_user: "{{ ansible_env.USER }}"
   tags: zsh
 
-- name: Install the powerlevel10k theme
+- name: Install the zsh-autosuggestions plugin
   git:
-    repo: 'https://github.com/romkatv/powerlevel10k.git'
-    dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
+    repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
+    dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
   become_user: "{{ ansible_env.USER }}"
+  tags: zsh
+
+- name: Check if .zshrc is a symlink
+  stat:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+  register: zshrc_stat
+  tags: zsh
+
+- name: Update .zshrc to enable zsh plugins (in .dotfiles)
+  lineinfile:
+    path: "{{ ansible_env.HOME }}/.dotfiles/zsh/.zshrc"  # Adjust the path according to your .dotfiles structure
+    regexp: '^plugins='
+    line: 'plugins=(git zsh-syntax-highlighting zsh-autosuggestions)'
+  when: zshrc_stat.stat.islnk
   tags: zsh
