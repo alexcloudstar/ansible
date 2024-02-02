@@ -2,7 +2,7 @@
 
 # Undo node
 npm uninstall -g yarn typescript-language-server typescript
-brew uninstall n node 
+brew uninstall n node
 
 # Remove any globally installed npm packages
 rm -rf /opt/homebrew/lib/node_modules
@@ -16,10 +16,11 @@ rm -f /opt/homebrew/bin/node
 rm -f /opt/homebrew/bin/bun
 rm -rf ~/.bun
 
-# Undo zsh
-uninstall_oh_my_zsh
+# undo zsh setup
+rm -rf $(which zsh)
+rm -rf ~/.oh-my-zsh
+rm ~/.zshrc
 chsh -s /bin/bash
-brew uninstall zsh
 
 # Undo Core Install
 brew uninstall tmux fzf lua luajit ripgrep tree-sitter neovim python3 pipx go

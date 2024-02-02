@@ -12,17 +12,9 @@
   tags:
     - homebrew
 
-- name: Install iTerm2 using Homebrew Cask
-  homebrew_cask:
-    name: iterm2
-    state: present
-  tags:
-    - homebrew
-  ignore_errors: yes
-
 - name: Install fzf key bindings and fuzzy completion
-  command: "{{ lookup('env', 'HOMEBREW_PREFIX') }}/opt/fzf/install --all"
+  command: "{{ ansible_env.HOMEBREW_PREFIX }}/opt/fzf/install --key-bindings --completion --no-update-rc"
   args:
-    creates: "{{ lookup('env', 'HOMEBREW_PREFIX') }}/opt/fzf/shell/key-bindings.zsh"
+    creates: "{{ ansible_env.HOMEBREW_PREFIX }}/opt/fzf/shell/key-bindings.zsh"
   tags:
     - homebrew
